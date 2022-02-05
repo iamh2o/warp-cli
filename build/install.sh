@@ -54,7 +54,7 @@ if ! test -f $base; then
   rm -R $base
 fi
 
-git clone https://github.com/JustinTimperio/warp-cli.git $base
+git clone --branch folly_demangle_fix https://github.com/iamh2o/warp-cli.git $base
 
 # Link to /usr/bin
 ln -sf $base/core/warp.py /usr/bin/warp
