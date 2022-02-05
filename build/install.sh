@@ -109,6 +109,10 @@ echo ''
 # Make and Install
 cd $bd_tmp
 
+if [[ $osname == 'centos' ]]; then
+  scl enable devtoolset-7 bash
+fi
+
 $cmake_cmd -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release ../
 
 # New library is needed for linking....
