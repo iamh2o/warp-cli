@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+
+# check and set a new shell if centos
+if [[ $osname == 'centos' ]]; then
+  yum install -y centos-release-scl dev-toolset-11
+  scl enable devtoolset-11 bash
+fi
+
 # Base Vars
 osname=$(cat /etc/*release | grep -Pi '^ID=' | head -1 | cut -c4- | sed -e 's/^"//' -e 's/"$//')
 base=/opt/warp-cli
@@ -108,10 +115,6 @@ echo ''
 
 # Make and Install
 cd $bd_tmp
-
-if [[ $osname == 'centos' ]]; then
-  scl enable devtoolset-7 bash
-fi
 
 $cmake_cmd -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release ../
 
