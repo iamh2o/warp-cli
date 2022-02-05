@@ -97,7 +97,7 @@ fi
 
 
 if grep -q "demangle_v3_callback_wrapper" $bd/folly/folly/Demangle.cpp; then
-  perl -pi -e 's/^\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"/\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"\n\"\$\{FOLLY_SOURCE_DIR\}\/folly\/detail/Demangle\.cpp\"' $cmakelist
+  perl -pi -e 's/^\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"/\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"\n\"\$\{FOLLY_SOURCE_DIR\}\/folly\/detail\/Demangle\.cpp\"/g;' $cmakelist
 fi
 
 echo ''
