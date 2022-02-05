@@ -15,6 +15,7 @@ echo '===================================='
 echo '      Installing Dependencies'
 echo '===================================='
 echo ''
+cmake_cmd="cmake"
 
 ## DEBIAN
 if [[ $osname == 'ubuntu' ]] || [[ $osname == 'debian' ]]; then
@@ -24,7 +25,9 @@ if [[ $osname == 'ubuntu' ]] || [[ $osname == 'debian' ]]; then
 ## CENTOS
 elif [[ $osname == 'centos' ]] || [[ $osname == 'fedora' ]]; then
   # Install Dependencies
-  yum -y install git python38 cmake boost-devel openssl jemalloc glog-devel double-conversion-devel make automake gcc gcc-c++ kernel-devel gtest-devel openssl-devel libevent-devel
+  ### yum -y install git python38 cmake boost-devel openssl jemalloc glog-devel double-conversion-devel make automake gcc gcc-c++ kernel-devel gtest-devel openssl-devel libevent-devel binutils binutils-devel centos-release-scl dev-toolset-11
+  #  NOTE-  you may need to manually install libiberty if binutils does not drag it infor you
+  cmake_cmd="cmake3"   # centos7 at least defaults to 
 
 ## ARCH
 elif [[ $osname == 'arch' ]] || [[ $osname == 'manjaro' ]]; then
@@ -92,6 +95,11 @@ else
   echo Patching CMakeList.txt Was Unnecessary!
 fi
 
+
+if grep -q "demangle_v3_callback_wrapper" folly/folly/Demangle.cpp; then
+  perl -pi -e 's/^\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"/\"\$\{FOLLY_SOURCE_DIR\}\/folly\/Demangle\.cpp\"\n\"\$\{FOLLY_SOURCE_DIR\}\/folly\/detail/Demangle\.cpp\"' $cmakelist
+fi
+
 echo ''
 echo '===================================='
 echo '          Installing WDT'
@@ -100,11 +108,13 @@ echo ''
 
 # Make and Install
 cd $bd_tmp
-cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release ../
+$cmake_cmd -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release ../
 make -j
-make install
+
+#make install
 
 echo ''
 echo '===================================='
 echo ''
-warp -v 
+
+#warp -v 
