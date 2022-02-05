@@ -108,8 +108,13 @@ echo ''
 
 # Make and Install
 cd $bd_tmp
+
 $cmake_cmd -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release ../
-make -j
+
+# New library is needed for linking....
+perl -pi -e 's/(^.+)($)/$1 \-liberty /g;' CMakeFiles/folly*/link.txt
+
+make -j 
 
 #make install
 
