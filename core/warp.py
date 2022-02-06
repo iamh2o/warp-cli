@@ -2,14 +2,17 @@
 
 import re
 import os
+import sys
 import pickle
 import argparse
 import subprocess
 import resource
 
 # Make this configurable, but for now jack it up so file limits dont kill u
-resource.setrlimit(resource.RLIMIT_NOFILE, (100000, 100000))
-
+try:
+    resource.setrlimit(resource.RLIMIT_NOFILE, (100000, 100000))
+except Exception as e:
+    print( f"ERROR: {e}\nException while attempting to increase ulimits. One further attempt, and if that fails will not actually throw an exception, but if you have transfer problems this would be a good place to start looking for reasons why", attempting again
 
 def escape_bash_input(astr):
     """Uses regex subsitution to safely escape bash input."""
